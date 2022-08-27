@@ -10,12 +10,22 @@ const user = [
     }
 ]
 
-const tweet = [
+const tweets = [
     {
         username: "bobesponja",
         tweet: "eu amo o hub"
     }
 ]
+
+server.get('/sign-up', (req, res) => {
+    
+    res.send(user);
+});
+
+server.get('/tweets', (req, res) => {
+    
+    res.send(tweets);
+});
 
 
 server.post('/sign-up', (req, res) => {
@@ -24,6 +34,13 @@ server.post('/sign-up', (req, res) => {
     user.push(userLogin);
     res.send('OK');
 });
+
+server.post('/tweets', (req, res) => {
+    const tweet = req.body;
+
+    tweets.push(tweet);
+    res.send('OK');
+})
 
 
 
