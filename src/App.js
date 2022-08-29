@@ -20,7 +20,7 @@ function updateTweets () {
         tweet.avatar = user.avatar;
     });
 
-    posts = allTweets.slice(-3);
+    posts = allTweets.slice(-10);
 }
 
 
