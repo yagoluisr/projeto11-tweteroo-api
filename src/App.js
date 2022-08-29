@@ -1,37 +1,33 @@
 import express from 'express';
+import cors from 'cors';
 
 const server = express();
+server.use(cors());
 server.use(express.json());
 
-const user = [
-    {
-        username: 'bobesponja', 
-        avatar: "https://super.abril.com.br/wp-content/uploads/2020/09/04-09_gato_SITE.jpg?quality=70&strip=info" 
-    }
-]
+const users = [];
 
-const tweets = [
-    {
-        username: "bobesponja",
-        tweet: "eu amo o hub"
-    }
-]
+const tweets = [];
 
-server.get('/sign-up', (req, res) => {
-    
-    res.send(user);
-});
+let posts = [];
 
-server.get('/tweets', (req, res) => {
-    
-    res.send(tweets);
-});
+
+function updateTweets () {
+    let allTweets = [...tweets];
+
+    allTweets.forEach(tweet => {
+        let user = users.find(obj => obj.username === tweet.username);
+        tweet.avatar = user.avatar;
+    });
+
+    posts = allTweets.slice(-3);
+}
 
 
 server.post('/sign-up', (req, res) => {
     const userLogin = req.body;
     
-    user.push(userLogin);
+    users.push(userLogin);
     res.send('OK');
 });
 
@@ -40,10 +36,14 @@ server.post('/tweets', (req, res) => {
 
     tweets.push(tweet);
     res.send('OK');
-})
+});
 
+server.get('/tweets', (req, res) => {
+    updateTweets();
+    res.send(posts);
+});
 
 
 server.listen(5000, () => {
-    console.log('Server tá On !');
+    console.log('Server online ');
 })
